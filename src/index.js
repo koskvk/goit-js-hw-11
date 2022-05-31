@@ -49,18 +49,23 @@ function loadPictures() {
       console.log(error);
       Notify.failure('Something went wrong, please try again...');
     });
-  
-  onHiddenLoadMoreButton();
 }
 
 function dataProcessing(response) {
   searchButton.disabled = false;
+  loadMoreButton.disabled = false;
+  loadMoreButton.classList.remove('is-hidden');
+
   if (response.data.totalHits === 0) {
     Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     return;
   }
+
   if (response.data.totalHits !== 0 && response.data.hits.length === 0) {
     Notify.warning(`We're sorry, but you've reached the end of search results.`);
+
+    onHiddenLoadMoreButton();
+
     return;
   }
 
@@ -72,12 +77,9 @@ function dataProcessing(response) {
 async function onShowNextPage() {
   searchImages.pageNumber += 1;
   await loadPictures();
-
-  loadMoreButton.removeAttribute('disabled');
-  loadMoreButton.classList.remove('is-hidden');
 }
 
 function onHiddenLoadMoreButton() {
-    refs.loadMoreButton.setAttribute("disabled", "");
-    refs.loadMoreButton.classList.add('is-hidden');
+  loadMoreButton.disabled = true;
+  loadMoreButton.classList.add('is-hidden');
 }
