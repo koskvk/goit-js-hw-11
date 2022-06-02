@@ -72,14 +72,6 @@ function dataProcessing(response) {
     return;
   }
 
-  if (totalHits !== 0 && lenghtHits === 0) {
-    Notify.warning(`We're sorry, but you've reached the end of search results.`);
-
-    onHiddenLoadMoreButton();
-
-    return;
-  }
-
   gallery.insertAdjacentHTML('beforeend', markup(response.data.hits));
 
   galleryLightBox.refresh();
@@ -88,7 +80,9 @@ function dataProcessing(response) {
 async function onShowNextPage() {
   await loadPictures();
 
-  if (searchImages.pageNumber === totalPages) {    
+  if (searchImages.pageNumber === totalPages) {
+    Notify.warning(`We're sorry, but you've reached the end of search results.`);
+
     onHiddenLoadMoreButton();
   }
 }
