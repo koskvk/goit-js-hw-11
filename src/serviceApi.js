@@ -45,5 +45,9 @@ export default class ServiceAPI {
         this.options.params.page = newNumber;
     }
 
+    get per_page() {
+        return this.options.params.per_page;
+    }
+
 }
 
